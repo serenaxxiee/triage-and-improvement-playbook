@@ -1,4 +1,4 @@
-# Failure Triage & Remediation Playbook
+# Triage & Improvement Playbook
 
 A diagnostic and remediation framework for turning eval results into action. Use this playbook to interpret scores, diagnose why test cases fail, identify who needs to act, and map to specific fixes.
 
