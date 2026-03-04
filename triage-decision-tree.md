@@ -64,11 +64,19 @@ For each failure, manually review the agent's actual response alongside the expe
 
 | # | Diagnostic Question | If YES | If NO |
 |---|---|---|---|
-| 1.1 | Is the agent's actual response acceptable, even though it failed the eval? | **Eval Setup Issue:** grader or expected value is wrong | Continue to 1.2 |
+| 1.1 | Is the agent's actual response acceptable (i.e., would a real user be satisfied with this answer), even though it failed the eval? | **Eval Setup Issue:** grader or expected value is wrong | Continue to 1.2 |
 | 1.2 | Is the expected answer still current and accurate against the source? | Continue to 1.3 | **Eval Setup Issue:** expected answer is outdated or wrong |
 | 1.3 | Does the test case represent a realistic user input? | Continue to 1.4 | **Eval Setup Issue:** test case is unrealistic |
 | 1.4 | Could a reasonable alternative response also be correct, but the grader doesn't allow for it? | **Eval Setup Issue:** grader too rigid, doesn't account for valid variations | Continue to 1.5 |
 | 1.5 | Is the eval method appropriate for what you're trying to test? | **Eval is valid** — proceed to [Step 2](#step-2-diagnose-the-agent-whats-misconfigured) | **Eval Setup Issue:** wrong eval method for this quality signal |
+
+> **Not sure if the response is "acceptable"?** Here are some practical signals to help you decide (questions 1.1 and 1.4):
+> - The agent's response contains the same key facts as the expected answer but uses different wording → **usually acceptable** (the grader may be too rigid)
+> - The agent's response is missing critical information that is in the expected answer → **usually NOT acceptable**
+> - Reasonable people could disagree on whether the response is good enough → the acceptance criteria may be ambiguous (flag for 1.4)
+> - When in doubt, compare the agent's response to the original source document, not just the expected answer — the source is the ground truth
+>
+> These are signals to inform your judgment, not substitutes for it.
 
 ### Common Eval Setup Failure Sub-Types
 

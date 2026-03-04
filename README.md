@@ -8,6 +8,16 @@ A diagnostic and remediation framework for turning eval results into action. Use
 - *"We're at 88% overall. Is that good enough to ship?"*
 - *"I have 15 failing test cases across 4 eval sets. Where do I even start?"*
 
+> **Time:** 10-15 minutes for score interpretation (this page). Budget additional time per failure for triage and remediation in the later layers.
+>
+> **What you need:** Pass/fail results for each test case across one or more eval sets.
+
+---
+
+## Before You Start
+
+You should have eval results in hand — a pass/fail outcome for each test case. This playbook will help you interpret scores, diagnose failures, identify who acts, and map to specific fixes. If you don't yet have results, run your eval sets first, then return here.
+
 ---
 
 ## Quick-Reference Cheat Sheet
@@ -18,9 +28,9 @@ Use this during active triage sessions. It's self-contained — you don't need t
 TRIAGE CHEAT SHEET
 
 1. SCORES OK?
-   Safety/Compliance < 95%  → BLOCK (fix before anything else)
-   Core business < 80%      → ITERATE (focus here)
-   Capabilities < threshold → CONDITIONAL SHIP (document gaps)
+   Safety/Compliance < 95%  → BLOCK     → Go to Layer 2 to triage safety failures
+   Core business < 80%      → ITERATE   → Go to Layer 2 to triage the lowest-scoring eval set
+   Capabilities < threshold → CONDITIONAL SHIP → Document gaps, then go to Layer 2 for each
    All above threshold      → SHIP ✓
 
 2. FOR EACH FAILURE — ask in order:
@@ -47,6 +57,8 @@ TRIAGE CHEAT SHEET
 | **Layer 4: Pattern Analysis** | "What systemic issues do my failures reveal?" | [pattern-analysis.md](pattern-analysis.md) |
 | **Worked Examples** | "Show me the full flow end to end" | [worked-examples.md](worked-examples.md) |
 | **Failure Log Template** | "How do I track what I've found?" | [templates/failure-log-template.md](templates/failure-log-template.md) |
+
+> **Looking for a definition of "done"?** See [When Are You Done Iterating?](#when-are-you-done-iterating)
 
 ### The Three Root Cause Types
 
@@ -93,6 +105,17 @@ Rather than applying fixed numbers, derive thresholds from your agent's risk pro
 | **Frequency of query type** | How often will users trigger this quality signal? | Higher frequency → higher threshold (more exposure) |
 | **Fallback availability** | If the agent fails, is there a human backup? How fast? | No fallback → higher threshold |
 | **Audience** | Internal employees? External customers? Regulated industry? | External/regulated → higher threshold |
+
+**Translating factors into starting thresholds — example risk profiles:**
+
+| Risk Profile | Description | Safety/Compliance | Core Business | Capabilities |
+|---|---|---|---|---|
+| Low-risk internal tool | Internal-only, human review on all outputs, low-stakes domain | 90%+ | 75%+ | 65%+ |
+| Medium-risk customer-facing agent | External users, some automation, recoverable errors | 95%+ | 85%+ | 75%+ |
+| High-risk regulated/financial agent | External users, consequential decisions, regulatory exposure | 98%+ | 92%+ | 85%+ |
+| Safety-critical agent | Health, legal, or financial advice with limited human oversight | 99%+ | 95%+ | 90%+ |
+
+These profiles are illustrative starting points only — not universal standards. Use them as anchors, then calibrate up or down based on your specific answers to the factor questions above.
 
 ### Example Threshold Calibration
 
@@ -177,6 +200,8 @@ Once you've interpreted your scores and identified where to focus:
 3. **If you want to see the full flow end to end:** Go to [Worked Examples](worked-examples.md)
 4. **If you're looking for systemic patterns across failures:** Go to [Pattern Analysis (Layer 4)](pattern-analysis.md)
 
+If you have more than 10 failing test cases, consider starting with [Pattern Analysis (Layer 4)](pattern-analysis.md) to identify systemic issues before triaging individually in Layer 2.
+
 ---
 
 ## Related Resources
@@ -201,27 +226,3 @@ The quality of your triage results depends on the quality of your eval set struc
 
 If your eval set scores are hard to interpret because test cases testing different things are mixed together, consider restructuring your eval sets before triaging individual failures.
 
-<!--
-## Internal Planning Notes
-
-**Connections to other focus areas:**
-- **1A (Scenario Library):** Playbook references library's quality signals. Library entries should link to this playbook for "what to do when this scenario's eval fails."
-- **1B (Auto-Gen Tool):** Auto-generated eval sets should include quality signal tags compatible with this triage framework.
-- **1C (Eval Set Architecture):** Playbook's Layer 1 depends on well-structured eval sets. 1C's partitioning guidance is a prerequisite for interpretable scores.
-- **FA4 (Operationalization):** The failure log template feeds FA4's cross-team governance. FA4's calibration protocol uses this triage framework as the standard diagnostic approach.
-
-**Enterprise Operationalization:**
-For organizations with multiple teams building agents:
-- The failure documentation template becomes the basis for cross-team learning
-- Pattern analysis scales to cross-agent analysis (portfolio view of quality across all agents)
-- The triage framework standardizes how all teams diagnose eval failures
-- Known platform limitations accumulated across teams provide stronger escalation evidence
-
-**Open Design Questions:**
-- Q1: How prescriptive should score thresholds be? Current approach: ranges with a "start here" example. Recommended: commit to single starting thresholds per signal with "calibrate to your risk profile" framework. Note: threshold numbers should undergo legal review before publication.
-- Q2: Should remediation steps include platform-specific UI instructions? Recommended: Yes — strongest differentiator. Include for MVP signals, link to docs.microsoft.com for UI walkthroughs. Accept maintenance cost; assign owner for quarterly review.
-- Q3: How detailed should worked examples be? Recommended: Comprehensive for MVP (one detailed walkthrough). Add other agent-type examples in V2.
-- Q4: Failure log template format? Recommended: Both markdown and CSV.
-- Q5: Who owns maintenance? Playbook references platform behaviors. An owner and update cadence (quarterly minimum) must be assigned.
-- Q6: What platform observability is available to customers? Many Layer 2 diagnostics require trace data. If not exposed, descope those questions, provide inference methods, or file a product request.
--->

@@ -8,6 +8,8 @@ Three end-to-end walkthroughs showing how the playbook layers connect in practic
 | [Journey 2](#journey-2-score-plateau) | Stuck after 4 iterations — "Nothing is improving" | Pattern analysis, reclassification, platform limitation workaround |
 | [Journey 3](#journey-3-post-update-regression) | Scores dropped after a change — "I broke something" | Regression detection, instruction conflict diagnosis, trade-off resolution |
 
+> **About these examples:** These are illustrative scenarios based on common patterns observed in real customer eval runs. The specific numbers, test case IDs, and agent details are representative composites, not verbatim records of a single customer engagement. The diagnostic paths and remediation strategies shown are the same ones used in practice.
+
 ---
 
 ## Journey 1: First Eval Run
@@ -301,6 +303,8 @@ Both signals are now above their blocking thresholds. Tone didn't fully return t
 ---
 
 ## Common Patterns Across Journeys
+
+Each journey starts from a different situation to demonstrate a different diagnostic path. For a continuous view of one agent through all four layers — score interpretation, triage, remediation, and verification — follow Journey 1, which is the most complete end-to-end example.
 
 | Pattern | Where It Appears | Takeaway |
 |---|---|---|

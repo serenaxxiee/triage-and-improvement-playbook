@@ -18,7 +18,26 @@ Three sections by root cause type, then organized by quality signal within each:
 
 ---
 
+## Where to Make These Changes in Copilot Studio
+
+The remediation actions throughout this file map to specific locations in the Copilot Studio UI. Use this table as a quick reference before diving into a specific remediation section.
+
+| Remediation Concept | Copilot Studio UI Location | Documentation |
+|---|---|---|
+| **System prompt / instructions** | Agent > **Instructions** pane (the text field where you describe the agent's purpose, tone, and rules) | [Authoring agent instructions](https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-create-edit-topics) [update link] |
+| **Knowledge source configuration** | Agent > **Knowledge** tab (add, remove, or re-index SharePoint, websites, uploaded files, etc.) | [Add knowledge to your copilot](https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-copilot-studio) |
+| **Tool / plugin configuration (Actions)** | Agent > **Actions** section (configure Power Automate flows, connectors, REST APIs, and custom plugins) | [Use actions in your copilot](https://learn.microsoft.com/en-us/microsoft-copilot-studio/advanced-plugin-actions) [update link] |
+| **Topic triggers** | Agent > **Topics** > select a topic > **Trigger phrases** section | [Create and edit topics](https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-create-edit-topics) |
+| **Escalation / handoff configuration** | Within a topic flow, add a **Transfer to agent** node; configure context variables to pass at handoff | [Hand off to a live agent](https://learn.microsoft.com/en-us/microsoft-copilot-studio/advanced-hand-off) [update link] |
+| **Eval / test configuration** | Agent > **Evaluate** tab (create eval sets, configure graders, run evaluations) | [Testing your copilot](https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-test-bot) [update link] |
+
+> **Tip:** Most remediation actions (instructions, grounding rules, tone, safety) happen in the **Instructions pane**. Knowledge and tool changes have their own dedicated tabs.
+
+---
+
 ## Eval Setup Remediation
+
+> **Where to act:** Eval setup changes are made in the **Evaluate** tab of your agent in Copilot Studio. Edit the eval set, update expected values, or change the grader method there.
 
 You've determined the eval setup is the problem (the agent may be performing correctly). Fix the eval to get clean signal before investigating further.
 
@@ -35,6 +54,8 @@ You've determined the eval setup is the problem (the agent may be performing cor
 ---
 
 ## Agent Configuration Remediation
+
+> **Where to act:** Most agent configuration changes are made in the **Instructions pane** or **Knowledge** tab of your agent in Copilot Studio. Tool/action changes are in the **Actions** section; topic routing changes are under **Topics**. See [Where to Make These Changes in Copilot Studio](#where-to-make-these-changes-in-copilot-studio) for the full mapping.
 
 The eval is valid and the agent genuinely produced a bad response. These are the specific configuration changes to make, organized by quality signal.
 
@@ -113,6 +134,8 @@ The eval is valid and the agent genuinely produced a bad response. These are the
 
 ## Platform Limitation Response
 
+> **Where to act:** Platform limitations are not resolved through UI configuration alone — workarounds may involve restructuring knowledge sources (**Knowledge** tab) or simplifying topic flows (**Topics**). Escalation goes to your platform team or Microsoft support with documented evidence.
+
 The eval is correct, agent configuration has been optimized, and the failure persists. This section provides workaround strategies and escalation guidance.
 
 | Limitation Type | Workaround | Escalation |
@@ -156,6 +179,12 @@ As you remediate failures by adding instructions to the system prompt (tone guid
 ---
 
 ## Efficient Re-Run Strategies
+
+### How to Re-Run an Eval in Copilot Studio
+
+To re-run an eval set: go to your agent > **Evaluate** tab > select the eval set > click **Run**. Results appear in the same tab once the run completes. For step-by-step guidance, see [Testing your copilot](https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-test-bot) [update link].
+
+> **Note:** Each run consumes message capacity. Use the targeting guidance below to avoid unnecessary full-suite runs.
 
 Re-running evals consumes platform resources (message capacity, API calls, time). Target your re-runs based on what you changed:
 
